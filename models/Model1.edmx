@@ -1,0 +1,533 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="vetcareDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Appointment">
+          <Key>
+            <PropertyRef Name="Appointment_id" />
+          </Key>
+          <Property Name="Appointment_id" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="Appointment_date" Type="datetime" Nullable="false" />
+          <Property Name="Diagnosis" Type="varchar(max)" Nullable="false" />
+          <Property Name="prescription" Type="varchar(max)" Nullable="false" />
+          <Property Name="user_id" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="invoice">
+          <Key>
+            <PropertyRef Name="invoice_id" />
+          </Key>
+          <Property Name="invoice_id" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="invoice_date" Type="datetime" Nullable="false" />
+          <Property Name="appointment_id" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="invoice_time_generated" Type="datetime" Nullable="false" />
+          <Property Name="invoice_amount" Type="numeric" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="invoice_discount" Type="numeric" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="invoice_paid_amount" Type="numeric" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="invoice_paid_time" Type="datetime" Nullable="false" />
+          <Property Name="payment_type" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'vetcareDB.dbo.Medicines' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Medicines">
+          <Key>
+            <PropertyRef Name="medicine_id" />
+            <PropertyRef Name="medicine_Sc_name" />
+            <PropertyRef Name="medicine_name" />
+            <PropertyRef Name="medicine_type" />
+            <PropertyRef Name="medicine_unit" />
+            <PropertyRef Name="medicine_purchase_price" />
+            <PropertyRef Name="medicine_price" />
+            <PropertyRef Name="medicine_instore_quantity" />
+            <PropertyRef Name="medicine_min_quantity" />
+            <PropertyRef Name="medicine_coo" />
+            <PropertyRef Name="medicine_expiry_date" />
+          </Key>
+          <Property Name="medicine_id" Type="nvarchar" MaxLength="10" Nullable="false" />
+          <Property Name="medicine_Sc_name" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="medicine_name" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="medicine_type" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="medicine_unit" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="medicine_purchase_price" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="medicine_price" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="medicine_instore_quantity" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="medicine_min_quantity" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="medicine_coo" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="medicine_expiry_date" Type="date" Nullable="false" />
+        </EntityType>
+        <EntityType Name="order">
+          <Key>
+            <PropertyRef Name="order_id" />
+          </Key>
+          <Property Name="order_id" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="order_items" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="supplier_id" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="order_amount" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="order_issued_date" Type="datetime" Nullable="false" />
+          <Property Name="order_received_date" Type="datetime" Nullable="false" />
+          <Property Name="order_payment_date" Type="datetime" Nullable="false" />
+          <Property Name="order_receiving_status" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="order_payment_status" Type="nchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="owner">
+          <Key>
+            <PropertyRef Name="owner_id" />
+          </Key>
+          <Property Name="owner_id" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="owner_name" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="owner_mobile" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="owner_phone" Type="nchar" MaxLength="10" />
+          <Property Name="owner_email" Type="nvarchar(max)" />
+          <Property Name="owner_address" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="Pet">
+          <Key>
+            <PropertyRef Name="pet_id" />
+          </Key>
+          <Property Name="pet_id" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="pet_name" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="owner_id" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="pet_photo" Type="varbinary(max)" />
+          <Property Name="pet_dob" Type="date" Nullable="false" />
+          <Property Name="pet_species" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="pet_breeds" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="notes" Type="nvarchar(max)" />
+        </EntityType>
+        <EntityType Name="service">
+          <Key>
+            <PropertyRef Name="service_id" />
+          </Key>
+          <Property Name="service_id" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="service_name" Type="varchar" MaxLength="250" Nullable="false" />
+          <Property Name="unit_id" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="cost_per_unit" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Supplier">
+          <Key>
+            <PropertyRef Name="supplier_id" />
+          </Key>
+          <Property Name="supplier_id" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="supplier_name" Type="varchar(max)" Nullable="false" />
+          <Property Name="supplier_commercial_registration" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="supplier_CR_expiry_date" Type="date" Nullable="false" />
+          <Property Name="supplier_email" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="supplier_address" Type="varchar(max)" Nullable="false" />
+          <Property Name="supplier_mobile" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="supplier_phone" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="supplier_bank_account" Type="nchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="unit">
+          <Key>
+            <PropertyRef Name="unit_id" />
+          </Key>
+          <Property Name="unit_id" Type="nchar" MaxLength="10" Nullable="false" />
+          <Property Name="unit_name" Type="nchar" MaxLength="10" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Users">
+          <Key>
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="user_id" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="user_name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="user_password" Type="varchar" MaxLength="25" Nullable="false" />
+          <Property Name="user_email" Type="varchar" MaxLength="25" />
+          <Property Name="user_phone" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <Association Name="FK_Appointment_Users">
+          <End Role="Users" Type="Self.Users" Multiplicity="1" />
+          <End Role="Appointment" Type="Self.Appointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Appointment">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="vetcareDBModelStoreContainer">
+          <EntitySet Name="Appointment" EntityType="Self.Appointment" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="invoice" EntityType="Self.invoice" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="order" EntityType="Self.order" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="owner" EntityType="Self.owner" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Pet" EntityType="Self.Pet" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="service" EntityType="Self.service" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Supplier" EntityType="Self.Supplier" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="unit" EntityType="Self.unit" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Users" EntityType="Self.Users" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Medicines" EntityType="Self.Medicines" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Medicines].[medicine_id] AS [medicine_id], 
+    [Medicines].[medicine_Sc_name] AS [medicine_Sc_name], 
+    [Medicines].[medicine_name] AS [medicine_name], 
+    [Medicines].[medicine_type] AS [medicine_type], 
+    [Medicines].[medicine_unit] AS [medicine_unit], 
+    [Medicines].[medicine_purchase_price] AS [medicine_purchase_price], 
+    [Medicines].[medicine_price] AS [medicine_price], 
+    [Medicines].[medicine_instore_quantity] AS [medicine_instore_quantity], 
+    [Medicines].[medicine_min_quantity] AS [medicine_min_quantity], 
+    [Medicines].[medicine_coo] AS [medicine_coo], 
+    [Medicines].[medicine_expiry_date] AS [medicine_expiry_date]
+    FROM [dbo].[Medicines] AS [Medicines]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Appointment_Users" Association="Self.FK_Appointment_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Appointment" EntitySet="Appointment" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="vetcareDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Appointment">
+          <Key>
+            <PropertyRef Name="Appointment_id" />
+          </Key>
+          <Property Name="Appointment_id" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Appointment_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="Diagnosis" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="prescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="user_id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="User" Relationship="Self.FK_Appointment_Users" FromRole="Appointment" ToRole="Users" />
+        </EntityType>
+        <EntityType Name="invoice">
+          <Key>
+            <PropertyRef Name="invoice_id" />
+          </Key>
+          <Property Name="invoice_id" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="invoice_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="appointment_id" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="invoice_time_generated" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="invoice_amount" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="invoice_discount" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="invoice_paid_amount" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="invoice_paid_time" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="payment_type" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="order">
+          <Key>
+            <PropertyRef Name="order_id" />
+          </Key>
+          <Property Name="order_id" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="order_items" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="supplier_id" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="order_amount" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="order_issued_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="order_received_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="order_payment_date" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="order_receiving_status" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="order_payment_status" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="owner">
+          <Key>
+            <PropertyRef Name="owner_id" />
+          </Key>
+          <Property Name="owner_id" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="owner_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="owner_mobile" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="owner_phone" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="owner_email" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="owner_address" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="Pet">
+          <Key>
+            <PropertyRef Name="pet_id" />
+          </Key>
+          <Property Name="pet_id" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="pet_name" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="owner_id" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="pet_photo" Type="Binary" MaxLength="Max" FixedLength="false" />
+          <Property Name="pet_dob" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="pet_species" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="pet_breeds" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="notes" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+        </EntityType>
+        <EntityType Name="service">
+          <Key>
+            <PropertyRef Name="service_id" />
+          </Key>
+          <Property Name="service_id" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="service_name" Type="String" MaxLength="250" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="unit_id" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="cost_per_unit" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Supplier">
+          <Key>
+            <PropertyRef Name="supplier_id" />
+          </Key>
+          <Property Name="supplier_id" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="supplier_name" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="supplier_commercial_registration" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="supplier_CR_expiry_date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="supplier_email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="supplier_address" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="supplier_mobile" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="supplier_phone" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="supplier_bank_account" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagram">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="unit">
+          <Key>
+            <PropertyRef Name="unit_id" />
+          </Key>
+          <Property Name="unit_id" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="unit_name" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+        </EntityType>
+        <EntityType Name="User">
+          <Key>
+            <PropertyRef Name="user_id" />
+          </Key>
+          <Property Name="user_id" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="user_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="user_password" Type="String" MaxLength="25" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="user_email" Type="String" MaxLength="25" FixedLength="false" Unicode="false" />
+          <Property Name="user_phone" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Appointments" Relationship="Self.FK_Appointment_Users" FromRole="Users" ToRole="Appointment" />
+        </EntityType>
+        <EntityType Name="Medicine">
+          <Key>
+            <PropertyRef Name="medicine_id" />
+            <PropertyRef Name="medicine_Sc_name" />
+            <PropertyRef Name="medicine_name" />
+            <PropertyRef Name="medicine_type" />
+            <PropertyRef Name="medicine_unit" />
+            <PropertyRef Name="medicine_purchase_price" />
+            <PropertyRef Name="medicine_price" />
+            <PropertyRef Name="medicine_instore_quantity" />
+            <PropertyRef Name="medicine_min_quantity" />
+            <PropertyRef Name="medicine_coo" />
+            <PropertyRef Name="medicine_expiry_date" />
+          </Key>
+          <Property Name="medicine_id" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="medicine_Sc_name" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="medicine_name" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="medicine_type" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="medicine_unit" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="medicine_purchase_price" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="medicine_price" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="medicine_instore_quantity" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="medicine_min_quantity" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="medicine_coo" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="medicine_expiry_date" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
+        <Association Name="FK_Appointment_Users">
+          <End Role="Users" Type="Self.User" Multiplicity="1" />
+          <End Role="Appointment" Type="Self.Appointment" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Users">
+              <PropertyRef Name="user_id" />
+            </Principal>
+            <Dependent Role="Appointment">
+              <PropertyRef Name="user_id" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="vetcareDBEntities1" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Appointments" EntityType="Self.Appointment" />
+          <EntitySet Name="invoices" EntityType="Self.invoice" />
+          <EntitySet Name="orders" EntityType="Self.order" />
+          <EntitySet Name="owners" EntityType="Self.owner" />
+          <EntitySet Name="Pets" EntityType="Self.Pet" />
+          <EntitySet Name="services" EntityType="Self.service" />
+          <EntitySet Name="Suppliers" EntityType="Self.Supplier" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagram" />
+          <EntitySet Name="units" EntityType="Self.unit" />
+          <EntitySet Name="Users" EntityType="Self.User" />
+          <EntitySet Name="Medicines" EntityType="Self.Medicine" />
+          <AssociationSet Name="FK_Appointment_Users" Association="Self.FK_Appointment_Users">
+            <End Role="Users" EntitySet="Users" />
+            <End Role="Appointment" EntitySet="Appointments" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="vetcareDBModelStoreContainer" CdmEntityContainer="vetcareDBEntities1">
+          <EntitySetMapping Name="Appointments">
+            <EntityTypeMapping TypeName="vetcareDBModel.Appointment">
+              <MappingFragment StoreEntitySet="Appointment">
+                <ScalarProperty Name="Appointment_id" ColumnName="Appointment_id" />
+                <ScalarProperty Name="Appointment_date" ColumnName="Appointment_date" />
+                <ScalarProperty Name="Diagnosis" ColumnName="Diagnosis" />
+                <ScalarProperty Name="prescription" ColumnName="prescription" />
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="invoices">
+            <EntityTypeMapping TypeName="vetcareDBModel.invoice">
+              <MappingFragment StoreEntitySet="invoice">
+                <ScalarProperty Name="invoice_id" ColumnName="invoice_id" />
+                <ScalarProperty Name="invoice_date" ColumnName="invoice_date" />
+                <ScalarProperty Name="appointment_id" ColumnName="appointment_id" />
+                <ScalarProperty Name="invoice_time_generated" ColumnName="invoice_time_generated" />
+                <ScalarProperty Name="invoice_amount" ColumnName="invoice_amount" />
+                <ScalarProperty Name="invoice_discount" ColumnName="invoice_discount" />
+                <ScalarProperty Name="invoice_paid_amount" ColumnName="invoice_paid_amount" />
+                <ScalarProperty Name="invoice_paid_time" ColumnName="invoice_paid_time" />
+                <ScalarProperty Name="payment_type" ColumnName="payment_type" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="orders">
+            <EntityTypeMapping TypeName="vetcareDBModel.order">
+              <MappingFragment StoreEntitySet="order">
+                <ScalarProperty Name="order_id" ColumnName="order_id" />
+                <ScalarProperty Name="order_items" ColumnName="order_items" />
+                <ScalarProperty Name="supplier_id" ColumnName="supplier_id" />
+                <ScalarProperty Name="order_amount" ColumnName="order_amount" />
+                <ScalarProperty Name="order_issued_date" ColumnName="order_issued_date" />
+                <ScalarProperty Name="order_received_date" ColumnName="order_received_date" />
+                <ScalarProperty Name="order_payment_date" ColumnName="order_payment_date" />
+                <ScalarProperty Name="order_receiving_status" ColumnName="order_receiving_status" />
+                <ScalarProperty Name="order_payment_status" ColumnName="order_payment_status" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="owners">
+            <EntityTypeMapping TypeName="vetcareDBModel.owner">
+              <MappingFragment StoreEntitySet="owner">
+                <ScalarProperty Name="owner_id" ColumnName="owner_id" />
+                <ScalarProperty Name="owner_name" ColumnName="owner_name" />
+                <ScalarProperty Name="owner_mobile" ColumnName="owner_mobile" />
+                <ScalarProperty Name="owner_phone" ColumnName="owner_phone" />
+                <ScalarProperty Name="owner_email" ColumnName="owner_email" />
+                <ScalarProperty Name="owner_address" ColumnName="owner_address" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Pets">
+            <EntityTypeMapping TypeName="vetcareDBModel.Pet">
+              <MappingFragment StoreEntitySet="Pet">
+                <ScalarProperty Name="pet_id" ColumnName="pet_id" />
+                <ScalarProperty Name="pet_name" ColumnName="pet_name" />
+                <ScalarProperty Name="owner_id" ColumnName="owner_id" />
+                <ScalarProperty Name="pet_photo" ColumnName="pet_photo" />
+                <ScalarProperty Name="pet_dob" ColumnName="pet_dob" />
+                <ScalarProperty Name="pet_species" ColumnName="pet_species" />
+                <ScalarProperty Name="pet_breeds" ColumnName="pet_breeds" />
+                <ScalarProperty Name="notes" ColumnName="notes" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="services">
+            <EntityTypeMapping TypeName="vetcareDBModel.service">
+              <MappingFragment StoreEntitySet="service">
+                <ScalarProperty Name="service_id" ColumnName="service_id" />
+                <ScalarProperty Name="service_name" ColumnName="service_name" />
+                <ScalarProperty Name="unit_id" ColumnName="unit_id" />
+                <ScalarProperty Name="cost_per_unit" ColumnName="cost_per_unit" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Suppliers">
+            <EntityTypeMapping TypeName="vetcareDBModel.Supplier">
+              <MappingFragment StoreEntitySet="Supplier">
+                <ScalarProperty Name="supplier_id" ColumnName="supplier_id" />
+                <ScalarProperty Name="supplier_name" ColumnName="supplier_name" />
+                <ScalarProperty Name="supplier_commercial_registration" ColumnName="supplier_commercial_registration" />
+                <ScalarProperty Name="supplier_CR_expiry_date" ColumnName="supplier_CR_expiry_date" />
+                <ScalarProperty Name="supplier_email" ColumnName="supplier_email" />
+                <ScalarProperty Name="supplier_address" ColumnName="supplier_address" />
+                <ScalarProperty Name="supplier_mobile" ColumnName="supplier_mobile" />
+                <ScalarProperty Name="supplier_phone" ColumnName="supplier_phone" />
+                <ScalarProperty Name="supplier_bank_account" ColumnName="supplier_bank_account" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="vetcareDBModel.sysdiagram">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="units">
+            <EntityTypeMapping TypeName="vetcareDBModel.unit">
+              <MappingFragment StoreEntitySet="unit">
+                <ScalarProperty Name="unit_id" ColumnName="unit_id" />
+                <ScalarProperty Name="unit_name" ColumnName="unit_name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Users">
+            <EntityTypeMapping TypeName="vetcareDBModel.User">
+              <MappingFragment StoreEntitySet="Users">
+                <ScalarProperty Name="user_id" ColumnName="user_id" />
+                <ScalarProperty Name="user_name" ColumnName="user_name" />
+                <ScalarProperty Name="user_password" ColumnName="user_password" />
+                <ScalarProperty Name="user_email" ColumnName="user_email" />
+                <ScalarProperty Name="user_phone" ColumnName="user_phone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Medicines">
+            <EntityTypeMapping TypeName="vetcareDBModel.Medicine">
+              <MappingFragment StoreEntitySet="Medicines">
+                <ScalarProperty Name="medicine_id" ColumnName="medicine_id" />
+                <ScalarProperty Name="medicine_Sc_name" ColumnName="medicine_Sc_name" />
+                <ScalarProperty Name="medicine_name" ColumnName="medicine_name" />
+                <ScalarProperty Name="medicine_type" ColumnName="medicine_type" />
+                <ScalarProperty Name="medicine_unit" ColumnName="medicine_unit" />
+                <ScalarProperty Name="medicine_purchase_price" ColumnName="medicine_purchase_price" />
+                <ScalarProperty Name="medicine_price" ColumnName="medicine_price" />
+                <ScalarProperty Name="medicine_instore_quantity" ColumnName="medicine_instore_quantity" />
+                <ScalarProperty Name="medicine_min_quantity" ColumnName="medicine_min_quantity" />
+                <ScalarProperty Name="medicine_coo" ColumnName="medicine_coo" />
+                <ScalarProperty Name="medicine_expiry_date" ColumnName="medicine_expiry_date" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
